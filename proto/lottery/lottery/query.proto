@@ -40,7 +40,7 @@ message QueryListLotteryRequest {
 }
 
 message QueryListLotteryResponse {
-  repeated Lottery                                lottery    = 1;
+  repeated Lottery                                lottery    = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
