@@ -71632,6 +71632,8 @@ definitions:
           type: string
       creator:
         type: string
+  lottery.lottery.MsgCancelLotteryResponse:
+    type: object
   lottery.lottery.MsgCreateLotteryResponse:
     type: object
   lottery.lottery.Params:
