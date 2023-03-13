@@ -7,6 +7,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
 )
 
 func (k msgServer) CancelLottery(goCtx context.Context, msg *types.MsgCancelLottery) (*types.MsgCancelLotteryResponse, error) {
@@ -27,7 +28,13 @@ func (k msgServer) CancelLottery(goCtx context.Context, msg *types.MsgCancelLott
 
 	k.SetLottery(ctx, lottery)
 
-	// TODO: send ibc packet to refund users
+	k.TransmitRefundLotteryPacket(ctx,
+		types.RefundLotteryPacketData{Id: lottery.Id},
+		msg.SourcePort,
+		msg.SourceChannel,
+		clienttypes.ZeroHeight(),
+		msg.TimeoutTimestamp,
+	)
 
 	return &types.MsgCancelLotteryResponse{}, nil
 }

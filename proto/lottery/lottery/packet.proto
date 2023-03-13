@@ -1,13 +1,32 @@
 syntax = "proto3";
+
 package lottery.lottery;
 
 option go_package = "lottery/x/lottery/types";
 
 message LotteryPacketData {
-    oneof packet {
-        NoData noData = 1;
-    }
+  oneof packet {
+    NoData                  noData              = 1;
+    RefundLotteryPacketData refundLotteryPacket = 2;
+    SayhelloPacketData      sayhelloPacket      = 3;
+  }
 }
 
-message NoData {
+message NoData {}
+
+// RefundLotteryPacketData defines a struct for the packet payload
+message RefundLotteryPacketData {
+  uint64 id = 1;
 }
+
+// RefundLotteryPacketAck defines a struct for the packet acknowledgment
+message RefundLotteryPacketAck {}
+
+// SayhelloPacketData defines a struct for the packet payload
+message SayhelloPacketData {
+  uint64 id = 1;
+}
+
+// SayhelloPacketAck defines a struct for the packet acknowledgment
+message SayhelloPacketAck {}
+

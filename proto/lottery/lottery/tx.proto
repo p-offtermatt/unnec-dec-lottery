@@ -8,6 +8,7 @@ option go_package = "lottery/x/lottery/types";
 service Msg {
   rpc CreateLottery (MsgCreateLottery) returns (MsgCreateLotteryResponse);
   rpc CancelLottery (MsgCancelLottery) returns (MsgCancelLotteryResponse);
+  rpc SendSayhello  (MsgSendSayhello ) returns (MsgSendSayhelloResponse );
 }
 message MsgCreateLottery {
   string creator  = 1;
@@ -19,7 +20,20 @@ message MsgCreateLotteryResponse {}
 message MsgCancelLottery {
   string creator = 1;
   uint64 id      = 2;
+  string sourcePort = 3;
+  string sourceChannel = 4;
+  uint64 timeoutTimestamp = 5;
 }
 
 message MsgCancelLotteryResponse {}
+
+message MsgSendSayhello {
+  uint64 id               = 5;
+  string creator          = 1;
+  string port             = 2;
+  string channelID        = 3;
+  uint64 timeoutTimestamp = 4;
+}
+
+message MsgSendSayhelloResponse {}
 
