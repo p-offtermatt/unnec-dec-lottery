@@ -24,6 +24,12 @@ service Query {
     option (google.api.http).get = "/lottery/lottery/list_lottery";
   
   }
+  
+  // Queries a list of ShowLottery items.
+  rpc ShowLottery (QueryShowLotteryRequest) returns (QueryShowLotteryResponse) {
+    option (google.api.http).get = "/lottery/lottery/show_lottery/{id}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -41,6 +47,14 @@ message QueryListLotteryRequest {
 
 message QueryListLotteryResponse {
   repeated Lottery                                lottery    = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryShowLotteryRequest {
+  uint64 id = 1;
+}
+
+message QueryShowLotteryResponse {
+  Lottery lottery = 1;
 }
 
