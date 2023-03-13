@@ -3,10 +3,12 @@ package keeper
 import (
 	"context"
 
+	"lottery/x/lottery/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"lottery/x/lottery/types"
 )
 
 func (k Keeper) ShowLottery(goCtx context.Context, req *types.QueryShowLotteryRequest) (*types.QueryShowLotteryResponse, error) {
@@ -16,8 +18,11 @@ func (k Keeper) ShowLottery(goCtx context.Context, req *types.QueryShowLotteryRe
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Process the query
-	_ = ctx
+	lottery, found := k.GetLottery(ctx, req.Id)
 
-	return &types.QueryShowLotteryResponse{}, nil
+	if !found {
+		return nil, sdkerrors.Wrapf(sdkerrors.ErrNotFound, "lottery with id %d not found", req.Id)
+	}
+
+	return &types.QueryShowLotteryResponse{Lottery: lottery}, nil
 }

@@ -55,6 +55,6 @@ message QueryShowLotteryRequest {
 }
 
 message QueryShowLotteryResponse {
-  Lottery lottery = 1;
+  Lottery lottery = 1 [(gogoproto.nullable) = false];
 }
 
