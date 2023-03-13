@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package lottery.lottery;
 
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
 option go_package = "lottery/x/lottery/types";
 
 message LotteryPacketData {
@@ -9,6 +12,7 @@ message LotteryPacketData {
     NoData                  noData              = 1;
     RefundLotteryPacketData refundLotteryPacket = 2;
     SayhelloPacketData      sayhelloPacket      = 3;
+    BuyTicketPacketData     buyTicketPacket     = 4;
   }
 }
 
@@ -29,4 +33,14 @@ message SayhelloPacketData {
 
 // SayhelloPacketAck defines a struct for the packet acknowledgment
 message SayhelloPacketAck {}
+
+// BuyTicketPacketData defines a struct for the packet payload
+message BuyTicketPacketData {
+  uint64                   lotteryId = 1;
+  cosmos.base.v1beta1.Coin price     = 2 [(gogoproto.nullable) = false];
+  string                   creator   = 3;
+}
+
+// BuyTicketPacketAck defines a struct for the packet acknowledgment
+message BuyTicketPacketAck {}
 

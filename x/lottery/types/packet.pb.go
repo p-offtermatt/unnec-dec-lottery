@@ -5,6 +5,8 @@ package types
 
 import (
 	fmt "fmt"
+	types "github.com/cosmos/cosmos-sdk/types"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
@@ -27,6 +29,7 @@ type LotteryPacketData struct {
 	//	*LotteryPacketData_NoData
 	//	*LotteryPacketData_RefundLotteryPacket
 	//	*LotteryPacketData_SayhelloPacket
+	//	*LotteryPacketData_BuyTicketPacket
 	Packet isLotteryPacketData_Packet `protobuf_oneof:"packet"`
 }
 
@@ -78,10 +81,14 @@ type LotteryPacketData_RefundLotteryPacket struct {
 type LotteryPacketData_SayhelloPacket struct {
 	SayhelloPacket *SayhelloPacketData `protobuf:"bytes,3,opt,name=sayhelloPacket,proto3,oneof" json:"sayhelloPacket,omitempty"`
 }
+type LotteryPacketData_BuyTicketPacket struct {
+	BuyTicketPacket *BuyTicketPacketData `protobuf:"bytes,4,opt,name=buyTicketPacket,proto3,oneof" json:"buyTicketPacket,omitempty"`
+}
 
 func (*LotteryPacketData_NoData) isLotteryPacketData_Packet()              {}
 func (*LotteryPacketData_RefundLotteryPacket) isLotteryPacketData_Packet() {}
 func (*LotteryPacketData_SayhelloPacket) isLotteryPacketData_Packet()      {}
+func (*LotteryPacketData_BuyTicketPacket) isLotteryPacketData_Packet()     {}
 
 func (m *LotteryPacketData) GetPacket() isLotteryPacketData_Packet {
 	if m != nil {
@@ -111,12 +118,20 @@ func (m *LotteryPacketData) GetSayhelloPacket() *SayhelloPacketData {
 	return nil
 }
 
+func (m *LotteryPacketData) GetBuyTicketPacket() *BuyTicketPacketData {
+	if x, ok := m.GetPacket().(*LotteryPacketData_BuyTicketPacket); ok {
+		return x.BuyTicketPacket
+	}
+	return nil
+}
+
 // XXX_OneofWrappers is for the internal use of the proto package.
 func (*LotteryPacketData) XXX_OneofWrappers() []interface{} {
 	return []interface{}{
 		(*LotteryPacketData_NoData)(nil),
 		(*LotteryPacketData_RefundLotteryPacket)(nil),
 		(*LotteryPacketData_SayhelloPacket)(nil),
+		(*LotteryPacketData_BuyTicketPacket)(nil),
 	}
 }
 
@@ -320,6 +335,104 @@ func (m *SayhelloPacketAck) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SayhelloPacketAck proto.InternalMessageInfo
 
+// BuyTicketPacketData defines a struct for the packet payload
+type BuyTicketPacketData struct {
+	LotteryId uint64     `protobuf:"varint,1,opt,name=lotteryId,proto3" json:"lotteryId,omitempty"`
+	Price     types.Coin `protobuf:"bytes,2,opt,name=price,proto3" json:"price"`
+	Creator   string     `protobuf:"bytes,3,opt,name=creator,proto3" json:"creator,omitempty"`
+}
+
+func (m *BuyTicketPacketData) Reset()         { *m = BuyTicketPacketData{} }
+func (m *BuyTicketPacketData) String() string { return proto.CompactTextString(m) }
+func (*BuyTicketPacketData) ProtoMessage()    {}
+func (*BuyTicketPacketData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_50262148acba624d, []int{6}
+}
+func (m *BuyTicketPacketData) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BuyTicketPacketData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BuyTicketPacketData.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BuyTicketPacketData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BuyTicketPacketData.Merge(m, src)
+}
+func (m *BuyTicketPacketData) XXX_Size() int {
+	return m.Size()
+}
+func (m *BuyTicketPacketData) XXX_DiscardUnknown() {
+	xxx_messageInfo_BuyTicketPacketData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BuyTicketPacketData proto.InternalMessageInfo
+
+func (m *BuyTicketPacketData) GetLotteryId() uint64 {
+	if m != nil {
+		return m.LotteryId
+	}
+	return 0
+}
+
+func (m *BuyTicketPacketData) GetPrice() types.Coin {
+	if m != nil {
+		return m.Price
+	}
+	return types.Coin{}
+}
+
+func (m *BuyTicketPacketData) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+// BuyTicketPacketAck defines a struct for the packet acknowledgment
+type BuyTicketPacketAck struct {
+}
+
+func (m *BuyTicketPacketAck) Reset()         { *m = BuyTicketPacketAck{} }
+func (m *BuyTicketPacketAck) String() string { return proto.CompactTextString(m) }
+func (*BuyTicketPacketAck) ProtoMessage()    {}
+func (*BuyTicketPacketAck) Descriptor() ([]byte, []int) {
+	return fileDescriptor_50262148acba624d, []int{7}
+}
+func (m *BuyTicketPacketAck) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *BuyTicketPacketAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_BuyTicketPacketAck.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *BuyTicketPacketAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BuyTicketPacketAck.Merge(m, src)
+}
+func (m *BuyTicketPacketAck) XXX_Size() int {
+	return m.Size()
+}
+func (m *BuyTicketPacketAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_BuyTicketPacketAck.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BuyTicketPacketAck proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*LotteryPacketData)(nil), "lottery.lottery.LotteryPacketData")
 	proto.RegisterType((*NoData)(nil), "lottery.lottery.NoData")
@@ -327,28 +440,39 @@ func init() {
 	proto.RegisterType((*RefundLotteryPacketAck)(nil), "lottery.lottery.RefundLotteryPacketAck")
 	proto.RegisterType((*SayhelloPacketData)(nil), "lottery.lottery.SayhelloPacketData")
 	proto.RegisterType((*SayhelloPacketAck)(nil), "lottery.lottery.SayhelloPacketAck")
+	proto.RegisterType((*BuyTicketPacketData)(nil), "lottery.lottery.BuyTicketPacketData")
+	proto.RegisterType((*BuyTicketPacketAck)(nil), "lottery.lottery.BuyTicketPacketAck")
 }
 
 func init() { proto.RegisterFile("lottery/lottery/packet.proto", fileDescriptor_50262148acba624d) }
 
 var fileDescriptor_50262148acba624d = []byte{
-	// 256 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0xc9, 0xc9, 0x2f, 0x29,
-	0x49, 0x2d, 0xaa, 0xd4, 0x87, 0xd1, 0x05, 0x89, 0xc9, 0xd9, 0xa9, 0x25, 0x7a, 0x05, 0x45, 0xf9,
-	0x25, 0xf9, 0x42, 0xfc, 0x50, 0x51, 0x3d, 0x28, 0xad, 0xf4, 0x97, 0x91, 0x4b, 0xd0, 0x07, 0xc2,
-	0x0e, 0x00, 0x2b, 0x74, 0x49, 0x2c, 0x49, 0x14, 0x32, 0xe4, 0x62, 0xcb, 0xcb, 0x07, 0xb1, 0x24,
-	0x18, 0x15, 0x18, 0x35, 0xb8, 0x8d, 0xc4, 0xf5, 0xd0, 0xf4, 0xe9, 0xf9, 0x81, 0xa5, 0x3d, 0x18,
-	0x82, 0xa0, 0x0a, 0x85, 0x62, 0xb8, 0x84, 0x8b, 0x52, 0xd3, 0x4a, 0xf3, 0x52, 0x50, 0x4c, 0x93,
-	0x60, 0x02, 0xeb, 0xd7, 0xc0, 0xd0, 0x1f, 0x84, 0xa9, 0x16, 0x6a, 0x20, 0x36, 0x63, 0x84, 0x7c,
-	0xb9, 0xf8, 0x8a, 0x13, 0x2b, 0x33, 0x52, 0x73, 0x72, 0xf2, 0xa1, 0x06, 0x33, 0x83, 0x0d, 0x56,
-	0xc6, 0x30, 0x38, 0x18, 0x45, 0x19, 0xd4, 0x4c, 0x34, 0xcd, 0x4e, 0x1c, 0x5c, 0x6c, 0x90, 0x60,
-	0x51, 0xe2, 0xe0, 0x62, 0x83, 0x78, 0x45, 0x49, 0x93, 0x4b, 0x1c, 0x87, 0xa3, 0x84, 0xf8, 0xb8,
-	0x98, 0x32, 0x53, 0xc0, 0x41, 0xc1, 0x12, 0xc4, 0x94, 0x99, 0xa2, 0x24, 0xc1, 0x25, 0x86, 0x45,
-	0xa9, 0x63, 0x72, 0xb6, 0x92, 0x0a, 0x97, 0x10, 0xa6, 0x03, 0x30, 0xf4, 0x0b, 0x73, 0x09, 0xa2,
-	0xaa, 0x72, 0x4c, 0xce, 0x76, 0x32, 0x3c, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07,
-	0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6, 0x63, 0x39, 0x86,
-	0x28, 0x71, 0x58, 0x54, 0x56, 0xc0, 0x23, 0xb5, 0xa4, 0xb2, 0x20, 0xb5, 0x38, 0x89, 0x0d, 0x1c,
-	0xa9, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x0d, 0xe3, 0xa4, 0x34, 0xf4, 0x01, 0x00, 0x00,
+	// 399 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x92, 0xc1, 0x6e, 0x9b, 0x30,
+	0x18, 0xc7, 0x81, 0x65, 0x2c, 0xf9, 0x26, 0x25, 0x8a, 0x13, 0x2d, 0x2c, 0x8a, 0xd8, 0xc4, 0x72,
+	0xc8, 0x2e, 0x46, 0x6c, 0xda, 0x03, 0x84, 0xed, 0xb0, 0x49, 0x6b, 0x15, 0xd1, 0x9e, 0xaa, 0x5e,
+	0x80, 0xb8, 0x29, 0x4a, 0x8a, 0x11, 0x38, 0x55, 0xb9, 0xf7, 0x01, 0xfa, 0x58, 0xb9, 0x35, 0xc7,
+	0x9e, 0xaa, 0x2a, 0x79, 0x91, 0x0a, 0x63, 0x5a, 0x01, 0xe9, 0x09, 0xdb, 0xdf, 0xff, 0xff, 0xc3,
+	0x9f, 0xbf, 0x3f, 0x8c, 0x56, 0x94, 0x31, 0x12, 0xa7, 0x66, 0xf1, 0x8d, 0x5c, 0x7f, 0x49, 0x18,
+	0x8e, 0x62, 0xca, 0x28, 0xea, 0x88, 0x53, 0x2c, 0xbe, 0xc3, 0xfe, 0x82, 0x2e, 0x28, 0xaf, 0x99,
+	0xd9, 0x2a, 0x97, 0x0d, 0x75, 0x9f, 0x26, 0x57, 0x34, 0x31, 0x3d, 0x37, 0x21, 0xe6, 0xb5, 0xe5,
+	0x11, 0xe6, 0x5a, 0xa6, 0x4f, 0x83, 0x30, 0xaf, 0x1b, 0xf7, 0x0a, 0x74, 0xff, 0xe7, 0x84, 0x19,
+	0xc7, 0xff, 0x71, 0x99, 0x8b, 0x2c, 0x50, 0x43, 0x9a, 0xad, 0x34, 0xf9, 0xab, 0x3c, 0xf9, 0xf8,
+	0x63, 0x80, 0x2b, 0x7f, 0xc3, 0xc7, 0xbc, 0xfc, 0x57, 0x72, 0x84, 0x10, 0x9d, 0x43, 0x2f, 0x26,
+	0x17, 0xeb, 0x70, 0x5e, 0xa2, 0x69, 0x0a, 0xf7, 0x4f, 0x6a, 0x7e, 0xa7, 0xae, 0x15, 0xc0, 0x43,
+	0x18, 0x74, 0x04, 0xed, 0xc4, 0x4d, 0x2f, 0xc9, 0x6a, 0x45, 0x05, 0xf8, 0x1d, 0x07, 0x7f, 0xab,
+	0x81, 0x4f, 0x4a, 0x32, 0xc1, 0xac, 0x98, 0xd1, 0x0c, 0x3a, 0xde, 0x3a, 0x3d, 0x0d, 0xb2, 0x8d,
+	0xe0, 0x35, 0x38, 0x6f, 0x5c, 0xe3, 0xd9, 0x65, 0x9d, 0x00, 0x56, 0xed, 0x76, 0x13, 0xd4, 0x7c,
+	0x3c, 0x46, 0x13, 0xd4, 0xfc, 0x71, 0x8c, 0xef, 0x30, 0x78, 0xa3, 0x4d, 0xd4, 0x06, 0x25, 0x98,
+	0xf3, 0xc7, 0x6d, 0x38, 0x4a, 0x30, 0x37, 0x34, 0xf8, 0x74, 0x40, 0x3a, 0xf5, 0x97, 0xc6, 0x18,
+	0x50, 0xbd, 0xa5, 0x9a, 0xbf, 0x07, 0xdd, 0xb2, 0x2a, 0xb3, 0xde, 0xca, 0xd0, 0x3b, 0x70, 0x7d,
+	0x34, 0x82, 0x96, 0xe8, 0xee, 0x5f, 0xc1, 0x78, 0x3d, 0x40, 0xbf, 0xe0, 0x7d, 0x14, 0x07, 0x3e,
+	0x11, 0xa3, 0xfb, 0x8c, 0xf3, 0x04, 0xe1, 0x2c, 0x41, 0x58, 0x24, 0x08, 0xff, 0xa6, 0x41, 0x68,
+	0x37, 0x36, 0x8f, 0x5f, 0x24, 0x27, 0x57, 0x23, 0x0d, 0x3e, 0xf8, 0x31, 0x71, 0x19, 0x8d, 0xf9,
+	0x68, 0x5a, 0x4e, 0xb1, 0x35, 0xfa, 0x80, 0x2a, 0xb7, 0x98, 0xfa, 0x4b, 0xdb, 0xda, 0xec, 0x74,
+	0x79, 0xbb, 0xd3, 0xe5, 0xa7, 0x9d, 0x2e, 0xdf, 0xed, 0x75, 0x69, 0xbb, 0xd7, 0xa5, 0x87, 0xbd,
+	0x2e, 0x9d, 0x0d, 0x8a, 0xbc, 0xdf, 0xbc, 0x24, 0x9f, 0xa5, 0x11, 0x49, 0x3c, 0x95, 0x47, 0xf6,
+	0xe7, 0x73, 0x00, 0x00, 0x00, 0xff, 0xff, 0x0a, 0xad, 0x2f, 0x6b, 0x19, 0x03, 0x00, 0x00,
 }
 
 func (m *LotteryPacketData) Marshal() (dAtA []byte, err error) {
@@ -443,6 +567,27 @@ func (m *LotteryPacketData_SayhelloPacket) MarshalToSizedBuffer(dAtA []byte) (in
 		}
 		i--
 		dAtA[i] = 0x1a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *LotteryPacketData_BuyTicketPacket) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *LotteryPacketData_BuyTicketPacket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.BuyTicketPacket != nil {
+		{
+			size, err := m.BuyTicketPacket.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPacket(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
 	}
 	return len(dAtA) - i, nil
 }
@@ -571,6 +716,74 @@ func (m *SayhelloPacketAck) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *BuyTicketPacketData) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BuyTicketPacketData) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BuyTicketPacketData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintPacket(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	{
+		size, err := m.Price.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintPacket(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x12
+	if m.LotteryId != 0 {
+		i = encodeVarintPacket(dAtA, i, uint64(m.LotteryId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *BuyTicketPacketAck) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *BuyTicketPacketAck) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BuyTicketPacketAck) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintPacket(dAtA []byte, offset int, v uint64) int {
 	offset -= sovPacket(v)
 	base := offset
@@ -630,6 +843,18 @@ func (m *LotteryPacketData_SayhelloPacket) Size() (n int) {
 	}
 	return n
 }
+func (m *LotteryPacketData_BuyTicketPacket) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.BuyTicketPacket != nil {
+		l = m.BuyTicketPacket.Size()
+		n += 1 + l + sovPacket(uint64(l))
+	}
+	return n
+}
 func (m *NoData) Size() (n int) {
 	if m == nil {
 		return 0
@@ -673,6 +898,33 @@ func (m *SayhelloPacketData) Size() (n int) {
 }
 
 func (m *SayhelloPacketAck) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *BuyTicketPacketData) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LotteryId != 0 {
+		n += 1 + sovPacket(uint64(m.LotteryId))
+	}
+	l = m.Price.Size()
+	n += 1 + l + sovPacket(uint64(l))
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovPacket(uint64(l))
+	}
+	return n
+}
+
+func (m *BuyTicketPacketAck) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -820,6 +1072,41 @@ func (m *LotteryPacketData) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			m.Packet = &LotteryPacketData_SayhelloPacket{v}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BuyTicketPacket", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPacket
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPacket
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPacket
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &BuyTicketPacketData{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.Packet = &LotteryPacketData_BuyTicketPacket{v}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1107,6 +1394,190 @@ func (m *SayhelloPacketAck) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: SayhelloPacketAck: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPacket(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPacket
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BuyTicketPacketData) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPacket
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BuyTicketPacketData: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BuyTicketPacketData: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LotteryId", wireType)
+			}
+			m.LotteryId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPacket
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.LotteryId |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Price", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPacket
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPacket
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPacket
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.Price.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPacket
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPacket
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPacket
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPacket(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPacket
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *BuyTicketPacketAck) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPacket
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: BuyTicketPacketAck: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: BuyTicketPacketAck: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

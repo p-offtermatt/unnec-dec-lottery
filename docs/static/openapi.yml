@@ -71815,6 +71815,8 @@ definitions:
     type: object
   lottery.lottery.MsgCreateLotteryResponse:
     type: object
+  lottery.lottery.MsgSendBuyTicketResponse:
+    type: object
   lottery.lottery.MsgSendSayhelloResponse:
     type: object
   lottery.lottery.Params:

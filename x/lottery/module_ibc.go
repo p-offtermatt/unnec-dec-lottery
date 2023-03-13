@@ -187,6 +187,25 @@ func (im IBCModule) OnRecvPacket(
 				sdk.NewAttribute(types.AttributeKeyAckSuccess, fmt.Sprintf("%t", err != nil)),
 			),
 		)
+	case *types.LotteryPacketData_BuyTicketPacket:
+		packetAck, err := im.keeper.OnRecvBuyTicketPacket(ctx, modulePacket, *packet.BuyTicketPacket)
+		if err != nil {
+			ack = channeltypes.NewErrorAcknowledgement(err)
+		} else {
+			// Encode packet acknowledgment
+			packetAckBytes, err := types.ModuleCdc.MarshalJSON(&packetAck)
+			if err != nil {
+				return channeltypes.NewErrorAcknowledgement(sdkerrors.Wrap(sdkerrors.ErrJSONMarshal, err.Error()))
+			}
+			ack = channeltypes.NewResultAcknowledgement(sdk.MustSortJSON(packetAckBytes))
+		}
+		ctx.EventManager().EmitEvent(
+			sdk.NewEvent(
+				types.EventTypeBuyTicketPacket,
+				sdk.NewAttribute(sdk.AttributeKeyModule, types.ModuleName),
+				sdk.NewAttribute(types.AttributeKeyAckSuccess, fmt.Sprintf("%t", err != nil)),
+			),
+		)
 		// this line is used by starport scaffolding # ibc/packet/module/recv
 	default:
 		err := fmt.Errorf("unrecognized %s packet type: %T", types.ModuleName, packet)
@@ -232,6 +251,12 @@ func (im IBCModule) OnAcknowledgementPacket(
 			return err
 		}
 		eventType = types.EventTypeSayhelloPacket
+	case *types.LotteryPacketData_BuyTicketPacket:
+		err := im.keeper.OnAcknowledgementBuyTicketPacket(ctx, modulePacket, *packet.BuyTicketPacket, ack)
+		if err != nil {
+			return err
+		}
+		eventType = types.EventTypeBuyTicketPacket
 		// this line is used by starport scaffolding # ibc/packet/module/ack
 	default:
 		errMsg := fmt.Sprintf("unrecognized %s packet type: %T", types.ModuleName, packet)
@@ -286,6 +311,11 @@ func (im IBCModule) OnTimeoutPacket(
 		}
 	case *types.LotteryPacketData_SayhelloPacket:
 		err := im.keeper.OnTimeoutSayhelloPacket(ctx, modulePacket, *packet.SayhelloPacket)
+		if err != nil {
+			return err
+		}
+	case *types.LotteryPacketData_BuyTicketPacket:
+		err := im.keeper.OnTimeoutBuyTicketPacket(ctx, modulePacket, *packet.BuyTicketPacket)
 		if err != nil {
 			return err
 		}

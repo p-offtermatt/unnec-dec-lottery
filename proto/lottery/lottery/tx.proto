@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package lottery.lottery;
 
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
 option go_package = "lottery/x/lottery/types";
 
 // Msg defines the Msg service.
@@ -9,6 +12,7 @@ service Msg {
   rpc CreateLottery (MsgCreateLottery) returns (MsgCreateLotteryResponse);
   rpc CancelLottery (MsgCancelLottery) returns (MsgCancelLotteryResponse);
   rpc SendSayhello  (MsgSendSayhello ) returns (MsgSendSayhelloResponse );
+  rpc SendBuyTicket (MsgSendBuyTicket) returns (MsgSendBuyTicketResponse);
 }
 message MsgCreateLottery {
   string creator  = 1;
@@ -18,10 +22,10 @@ message MsgCreateLottery {
 message MsgCreateLotteryResponse {}
 
 message MsgCancelLottery {
-  string creator = 1;
-  uint64 id      = 2;
-  string sourcePort = 3;
-  string sourceChannel = 4;
+  string creator          = 1;
+  uint64 id               = 2;
+  string sourcePort       = 3;
+  string sourceChannel    = 4;
   uint64 timeoutTimestamp = 5;
 }
 
@@ -36,4 +40,15 @@ message MsgSendSayhello {
 }
 
 message MsgSendSayhelloResponse {}
+
+message MsgSendBuyTicket {
+  uint64                   lotteryId        = 5;
+  cosmos.base.v1beta1.Coin price            = 6 [(gogoproto.nullable) = false];
+  string                   creator          = 1;
+  string                   port             = 2;
+  string                   channelID        = 3;
+  uint64                   timeoutTimestamp = 4;
+}
+
+message MsgSendBuyTicketResponse {}
 
