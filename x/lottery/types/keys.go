@@ -33,3 +33,8 @@ const (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+const (
+	LotteryPotsKey      = "LotteryPots/value/"
+	LotteryPotsCountKey = "LotteryPots/count/"
+)

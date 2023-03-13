@@ -4,12 +4,15 @@ package lottery.lottery;
 
 import "gogoproto/gogo.proto";
 import "lottery/lottery/params.proto";
+import "lottery/lottery/lottery_pots.proto";
 
 option go_package = "lottery/x/lottery/types";
 
 // GenesisState defines the lottery module's genesis state.
 message GenesisState {
-  Params params  = 1 [(gogoproto.nullable) = false];
-  string port_id = 2;
+           Params      params           = 1 [(gogoproto.nullable) = false];
+           string      port_id          = 2;
+  repeated LotteryPots lotteryPotsList  = 3 [(gogoproto.nullable) = false];
+           uint64      lotteryPotsCount = 4;
 }
 

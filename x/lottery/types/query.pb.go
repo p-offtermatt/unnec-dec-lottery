@@ -297,6 +297,190 @@ func (m *QueryShowLotteryResponse) GetLottery() Lottery {
 	return Lottery{}
 }
 
+type QueryGetLotteryPotsRequest struct {
+	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+}
+
+func (m *QueryGetLotteryPotsRequest) Reset()         { *m = QueryGetLotteryPotsRequest{} }
+func (m *QueryGetLotteryPotsRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetLotteryPotsRequest) ProtoMessage()    {}
+func (*QueryGetLotteryPotsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4fac83fcc5c93415, []int{6}
+}
+func (m *QueryGetLotteryPotsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetLotteryPotsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetLotteryPotsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetLotteryPotsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetLotteryPotsRequest.Merge(m, src)
+}
+func (m *QueryGetLotteryPotsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetLotteryPotsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetLotteryPotsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetLotteryPotsRequest proto.InternalMessageInfo
+
+func (m *QueryGetLotteryPotsRequest) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+type QueryGetLotteryPotsResponse struct {
+	LotteryPots LotteryPots `protobuf:"bytes,1,opt,name=LotteryPots,proto3" json:"LotteryPots"`
+}
+
+func (m *QueryGetLotteryPotsResponse) Reset()         { *m = QueryGetLotteryPotsResponse{} }
+func (m *QueryGetLotteryPotsResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetLotteryPotsResponse) ProtoMessage()    {}
+func (*QueryGetLotteryPotsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4fac83fcc5c93415, []int{7}
+}
+func (m *QueryGetLotteryPotsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetLotteryPotsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetLotteryPotsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetLotteryPotsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetLotteryPotsResponse.Merge(m, src)
+}
+func (m *QueryGetLotteryPotsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetLotteryPotsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetLotteryPotsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetLotteryPotsResponse proto.InternalMessageInfo
+
+func (m *QueryGetLotteryPotsResponse) GetLotteryPots() LotteryPots {
+	if m != nil {
+		return m.LotteryPots
+	}
+	return LotteryPots{}
+}
+
+type QueryAllLotteryPotsRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllLotteryPotsRequest) Reset()         { *m = QueryAllLotteryPotsRequest{} }
+func (m *QueryAllLotteryPotsRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllLotteryPotsRequest) ProtoMessage()    {}
+func (*QueryAllLotteryPotsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4fac83fcc5c93415, []int{8}
+}
+func (m *QueryAllLotteryPotsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllLotteryPotsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllLotteryPotsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllLotteryPotsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllLotteryPotsRequest.Merge(m, src)
+}
+func (m *QueryAllLotteryPotsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllLotteryPotsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllLotteryPotsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllLotteryPotsRequest proto.InternalMessageInfo
+
+func (m *QueryAllLotteryPotsRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllLotteryPotsResponse struct {
+	LotteryPots []LotteryPots       `protobuf:"bytes,1,rep,name=LotteryPots,proto3" json:"LotteryPots"`
+	Pagination  *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllLotteryPotsResponse) Reset()         { *m = QueryAllLotteryPotsResponse{} }
+func (m *QueryAllLotteryPotsResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllLotteryPotsResponse) ProtoMessage()    {}
+func (*QueryAllLotteryPotsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4fac83fcc5c93415, []int{9}
+}
+func (m *QueryAllLotteryPotsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllLotteryPotsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllLotteryPotsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllLotteryPotsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllLotteryPotsResponse.Merge(m, src)
+}
+func (m *QueryAllLotteryPotsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllLotteryPotsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllLotteryPotsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllLotteryPotsResponse proto.InternalMessageInfo
+
+func (m *QueryAllLotteryPotsResponse) GetLotteryPots() []LotteryPots {
+	if m != nil {
+		return m.LotteryPots
+	}
+	return nil
+}
+
+func (m *QueryAllLotteryPotsResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "lottery.lottery.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "lottery.lottery.QueryParamsResponse")
@@ -304,42 +488,54 @@ func init() {
 	proto.RegisterType((*QueryListLotteryResponse)(nil), "lottery.lottery.QueryListLotteryResponse")
 	proto.RegisterType((*QueryShowLotteryRequest)(nil), "lottery.lottery.QueryShowLotteryRequest")
 	proto.RegisterType((*QueryShowLotteryResponse)(nil), "lottery.lottery.QueryShowLotteryResponse")
+	proto.RegisterType((*QueryGetLotteryPotsRequest)(nil), "lottery.lottery.QueryGetLotteryPotsRequest")
+	proto.RegisterType((*QueryGetLotteryPotsResponse)(nil), "lottery.lottery.QueryGetLotteryPotsResponse")
+	proto.RegisterType((*QueryAllLotteryPotsRequest)(nil), "lottery.lottery.QueryAllLotteryPotsRequest")
+	proto.RegisterType((*QueryAllLotteryPotsResponse)(nil), "lottery.lottery.QueryAllLotteryPotsResponse")
 }
 
 func init() { proto.RegisterFile("lottery/lottery/query.proto", fileDescriptor_4fac83fcc5c93415) }
 
 var fileDescriptor_4fac83fcc5c93415 = []byte{
-	// 479 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0x3f, 0x6f, 0x13, 0x31,
-	0x18, 0xc6, 0xe3, 0xb4, 0x04, 0xc9, 0x91, 0x40, 0x32, 0x95, 0x12, 0x0e, 0x7a, 0xa9, 0x4c, 0x81,
-	0xb4, 0x83, 0xad, 0x04, 0x21, 0x31, 0x77, 0x80, 0x25, 0x43, 0x39, 0x98, 0x58, 0x90, 0x43, 0xac,
-	0xab, 0xa5, 0xf4, 0x7c, 0x3d, 0xbb, 0x94, 0x08, 0xb1, 0xb0, 0xb1, 0x20, 0x24, 0x36, 0x24, 0xbe,
-	0x4f, 0xc7, 0x4a, 0x2c, 0x4c, 0x08, 0x25, 0x7c, 0x10, 0x14, 0xff, 0x81, 0xdc, 0xf9, 0xc2, 0x9f,
-	0xe9, 0x22, 0xbf, 0xcf, 0xfb, 0xf8, 0xf7, 0xbc, 0xaf, 0x03, 0x6f, 0x4c, 0xa5, 0xd6, 0xbc, 0x98,
-	0x51, 0xff, 0x3d, 0x39, 0xe5, 0xc5, 0x8c, 0xe4, 0x85, 0xd4, 0x12, 0x5d, 0x75, 0x87, 0xc4, 0x7d,
-	0xa3, 0xad, 0x54, 0xa6, 0xd2, 0xd4, 0xe8, 0xf2, 0x97, 0x95, 0x45, 0x37, 0x53, 0x29, 0xd3, 0x29,
-	0xa7, 0x2c, 0x17, 0x94, 0x65, 0x99, 0xd4, 0x4c, 0x0b, 0x99, 0x29, 0x57, 0xdd, 0x7f, 0x21, 0xd5,
-	0xb1, 0x54, 0x74, 0xcc, 0x14, 0xb7, 0xee, 0xf4, 0xe5, 0x60, 0xcc, 0x35, 0x1b, 0xd0, 0x9c, 0xa5,
-	0x22, 0x33, 0x62, 0xef, 0x54, 0xa5, 0xc9, 0x59, 0xc1, 0x8e, 0xbd, 0xd3, 0x76, 0xb5, 0xea, 0xf1,
-	0x4c, 0x19, 0x6f, 0x41, 0xf4, 0x78, 0x69, 0x7f, 0x68, 0x7a, 0x12, 0x7e, 0x72, 0xca, 0x95, 0xc6,
-	0x23, 0x78, 0xad, 0x74, 0xaa, 0x72, 0x99, 0x29, 0x8e, 0xee, 0xc3, 0x96, 0xf5, 0xee, 0x82, 0x1d,
-	0xd0, 0x6f, 0x0f, 0x3b, 0xa4, 0x92, 0x95, 0xd8, 0x86, 0x83, 0xcd, 0xf3, 0x6f, 0xbd, 0x46, 0xe2,
-	0xc4, 0x98, 0xc1, 0x8e, 0x71, 0x1b, 0x09, 0xa5, 0x47, 0x56, 0xe8, 0x2e, 0x42, 0x0f, 0x21, 0xfc,
-	0x9d, 0xc7, 0xb9, 0xde, 0x21, 0x36, 0x3c, 0x59, 0x86, 0x27, 0x76, 0xb4, 0x2e, 0x3c, 0x39, 0x64,
-	0x29, 0x77, 0xbd, 0xc9, 0x4a, 0x27, 0xfe, 0x0c, 0x60, 0x37, 0xbc, 0xc3, 0x61, 0x3f, 0x80, 0x97,
-	0x1d, 0x5f, 0x17, 0xec, 0x6c, 0xf4, 0xdb, 0xc3, 0x6e, 0xc0, 0xed, 0x5a, 0x1c, 0xb8, 0x97, 0xa3,
-	0x47, 0x25, 0xbc, 0xa6, 0xc1, 0xbb, 0xfb, 0x57, 0x3c, 0x7b, 0x6d, 0x89, 0x6f, 0xcf, 0x8d, 0xe0,
-	0xc9, 0x91, 0x3c, 0xab, 0x8c, 0xe0, 0x0a, 0x6c, 0x8a, 0x89, 0x89, 0xbe, 0x99, 0x34, 0xc5, 0x04,
-	0x3f, 0x75, 0x49, 0x4a, 0xd2, 0xba, 0x24, 0xe0, 0x3f, 0x92, 0x0c, 0x3f, 0x6d, 0xc0, 0x4b, 0xc6,
-	0x16, 0x69, 0xd8, 0xb2, 0x5b, 0x42, 0xb7, 0x82, 0xe6, 0xf0, 0x29, 0x44, 0xbb, 0x7f, 0x16, 0x59,
-	0x30, 0xdc, 0x7b, 0xfb, 0xe5, 0xc7, 0xc7, 0xe6, 0x75, 0xd4, 0xa1, 0xf5, 0x8f, 0x11, 0xbd, 0x03,
-	0xb0, 0xbd, 0xb2, 0x1b, 0xd4, 0xaf, 0xb7, 0x0d, 0x9f, 0x48, 0xb4, 0xf7, 0x0f, 0x4a, 0x47, 0x71,
-	0xdb, 0x50, 0xf4, 0xd0, 0x76, 0x40, 0x31, 0x15, 0x4a, 0x3f, 0xf7, 0x5b, 0x7d, 0x0f, 0x60, 0x7b,
-	0x65, 0xba, 0xeb, 0x58, 0xc2, 0x5d, 0xad, 0x63, 0xa9, 0x59, 0x15, 0xde, 0x37, 0x2c, 0xbb, 0x08,
-	0x07, 0x2c, 0xea, 0x48, 0x9e, 0x79, 0x16, 0xfa, 0x5a, 0x4c, 0xde, 0x1c, 0x0c, 0xce, 0xe7, 0x31,
-	0xb8, 0x98, 0xc7, 0xe0, 0xfb, 0x3c, 0x06, 0x1f, 0x16, 0x71, 0xe3, 0x62, 0x11, 0x37, 0xbe, 0x2e,
-	0xe2, 0xc6, 0xb3, 0x8e, 0xd7, 0xbd, 0xfa, 0xd5, 0xae, 0x67, 0x39, 0x57, 0xe3, 0x96, 0xf9, 0xfb,
-	0xde, 0xfb, 0x19, 0x00, 0x00, 0xff, 0xff, 0x85, 0x57, 0x9a, 0xb7, 0x8b, 0x04, 0x00, 0x00,
+	// 598 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x95, 0x41, 0x6b, 0x13, 0x41,
+	0x14, 0xc7, 0x33, 0x69, 0x1b, 0x61, 0x02, 0x15, 0xc6, 0x42, 0xe2, 0xb6, 0xdd, 0x94, 0xb1, 0x6a,
+	0x5a, 0xcb, 0x2e, 0x89, 0x08, 0x5e, 0x5b, 0xc4, 0x5e, 0x72, 0x88, 0xd1, 0x93, 0x97, 0x32, 0x69,
+	0x86, 0xed, 0xc2, 0x36, 0xb3, 0xcd, 0x4c, 0xad, 0x41, 0xbc, 0x78, 0xf3, 0x22, 0xa2, 0x5e, 0xfd,
+	0x06, 0x7e, 0x0e, 0xe9, 0xb1, 0xe0, 0xc5, 0x93, 0x48, 0xe2, 0x07, 0x91, 0xcc, 0xbc, 0xd5, 0x4d,
+	0x76, 0xb6, 0xad, 0xd2, 0xd3, 0x86, 0x79, 0xff, 0xf7, 0xde, 0xef, 0xbd, 0xcc, 0x7f, 0x17, 0x2f,
+	0x47, 0x42, 0x29, 0x3e, 0x18, 0xfa, 0xc9, 0xf3, 0xe8, 0x98, 0x0f, 0x86, 0x5e, 0x3c, 0x10, 0x4a,
+	0x90, 0xeb, 0x70, 0xe8, 0xc1, 0xd3, 0x59, 0x0a, 0x44, 0x20, 0x74, 0xcc, 0x9f, 0xfc, 0x32, 0x32,
+	0x67, 0x25, 0x10, 0x22, 0x88, 0xb8, 0xcf, 0xe2, 0xd0, 0x67, 0xfd, 0xbe, 0x50, 0x4c, 0x85, 0xa2,
+	0x2f, 0x21, 0xba, 0xb9, 0x2f, 0xe4, 0xa1, 0x90, 0x7e, 0x97, 0x49, 0x6e, 0xaa, 0xfb, 0x2f, 0x1a,
+	0x5d, 0xae, 0x58, 0xc3, 0x8f, 0x59, 0x10, 0xf6, 0xb5, 0x38, 0xa9, 0x34, 0x4b, 0x13, 0xb3, 0x01,
+	0x3b, 0x4c, 0x2a, 0xad, 0xce, 0x46, 0x13, 0x3c, 0x13, 0xa6, 0x39, 0xe1, 0xbd, 0x58, 0x28, 0x28,
+	0x41, 0x97, 0x30, 0x79, 0x32, 0x41, 0x68, 0xeb, 0xba, 0x1d, 0x7e, 0x74, 0xcc, 0xa5, 0xa2, 0x2d,
+	0x7c, 0x63, 0xea, 0x54, 0xc6, 0xa2, 0x2f, 0x39, 0x79, 0x80, 0x4b, 0xa6, 0x7f, 0x15, 0xad, 0xa1,
+	0x7a, 0xb9, 0x59, 0xf1, 0x66, 0xf6, 0xe1, 0x99, 0x84, 0x9d, 0xf9, 0xd3, 0x1f, 0xb5, 0x42, 0x07,
+	0xc4, 0x94, 0xe1, 0x8a, 0xae, 0xd6, 0x0a, 0xa5, 0x6a, 0x19, 0x21, 0x34, 0x22, 0x8f, 0x31, 0xfe,
+	0x3b, 0x33, 0x54, 0xbd, 0xe3, 0x99, 0x05, 0x79, 0x93, 0x05, 0x79, 0x66, 0xfd, 0xb0, 0x20, 0xaf,
+	0xcd, 0x02, 0x0e, 0xb9, 0x9d, 0x54, 0x26, 0xfd, 0x8c, 0x70, 0x35, 0xdb, 0x03, 0xb0, 0x1f, 0xe2,
+	0x6b, 0xc0, 0x57, 0x45, 0x6b, 0x73, 0xf5, 0x72, 0xb3, 0x9a, 0xe1, 0x86, 0x14, 0x00, 0x4f, 0xe4,
+	0x64, 0x77, 0x0a, 0xaf, 0xa8, 0xf1, 0xee, 0x5e, 0x88, 0x67, 0xda, 0x4e, 0xf1, 0x6d, 0xc0, 0x0a,
+	0x9e, 0x1e, 0x88, 0x93, 0x99, 0x15, 0x2c, 0xe2, 0x62, 0xd8, 0xd3, 0xa3, 0xcf, 0x77, 0x8a, 0x61,
+	0x8f, 0x3e, 0x83, 0x49, 0xa6, 0xa4, 0xb6, 0x49, 0xd0, 0x3f, 0x4c, 0x42, 0xb7, 0xb0, 0xa3, 0xab,
+	0xee, 0xf2, 0x64, 0x3d, 0x6d, 0xa1, 0x64, 0x1e, 0xc3, 0x3e, 0x5e, 0xb6, 0xaa, 0x01, 0xe3, 0x11,
+	0x2e, 0xa7, 0x8e, 0x01, 0x65, 0x25, 0x0f, 0x65, 0xa2, 0x01, 0x9c, 0x74, 0x1a, 0xed, 0x01, 0xd2,
+	0x76, 0x14, 0x59, 0x90, 0xae, 0xea, 0x66, 0x7c, 0x41, 0x30, 0xcb, 0x6c, 0x9b, 0xbc, 0x59, 0xe6,
+	0xfe, 0x63, 0x96, 0x2b, 0xbb, 0x28, 0xcd, 0xaf, 0x0b, 0x78, 0x41, 0xe3, 0x12, 0x85, 0x4b, 0xc6,
+	0x4d, 0xe4, 0x56, 0x86, 0x26, 0x6b, 0x59, 0x67, 0xfd, 0x7c, 0x91, 0x69, 0x45, 0x6b, 0x6f, 0xbe,
+	0xfd, 0xfa, 0x58, 0xbc, 0x49, 0x2a, 0xbe, 0xfd, 0xc5, 0x42, 0xde, 0x22, 0x5c, 0x4e, 0x79, 0x88,
+	0xd4, 0xed, 0x65, 0xb3, 0x56, 0x76, 0x36, 0x2e, 0xa1, 0x04, 0x8a, 0xdb, 0x9a, 0xa2, 0x46, 0x56,
+	0x33, 0x14, 0x51, 0x28, 0xd5, 0x5e, 0xe2, 0xbe, 0x77, 0x08, 0x97, 0x53, 0x2e, 0xc8, 0x63, 0xc9,
+	0x7a, 0x2a, 0x8f, 0xc5, 0x62, 0x29, 0xba, 0xa9, 0x59, 0xd6, 0x09, 0xcd, 0xb0, 0xc8, 0x03, 0x71,
+	0x92, 0xb0, 0xf8, 0xaf, 0xc2, 0xde, 0x6b, 0xf2, 0x09, 0x4d, 0x5d, 0x16, 0x72, 0xcf, 0xde, 0xc6,
+	0xea, 0x31, 0x67, 0xeb, 0x72, 0xe2, 0x0b, 0xb1, 0xd2, 0x2f, 0x71, 0x83, 0xf5, 0x01, 0xe1, 0xc5,
+	0x54, 0x8d, 0xed, 0x28, 0xca, 0x23, 0xb3, 0x5a, 0x2d, 0x8f, 0xcc, 0x6e, 0x98, 0xf3, 0xfe, 0xbc,
+	0x14, 0xd9, 0x4e, 0xe3, 0x74, 0xe4, 0xa2, 0xb3, 0x91, 0x8b, 0x7e, 0x8e, 0x5c, 0xf4, 0x7e, 0xec,
+	0x16, 0xce, 0xc6, 0x6e, 0xe1, 0xfb, 0xd8, 0x2d, 0x3c, 0xaf, 0x24, 0xfa, 0x97, 0x7f, 0x32, 0xd5,
+	0x30, 0xe6, 0xb2, 0x5b, 0xd2, 0x9f, 0xa4, 0xfb, 0xbf, 0x03, 0x00, 0x00, 0xff, 0xff, 0x3d, 0x96,
+	0x2c, 0x67, 0x83, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -360,6 +556,9 @@ type QueryClient interface {
 	ListLottery(ctx context.Context, in *QueryListLotteryRequest, opts ...grpc.CallOption) (*QueryListLotteryResponse, error)
 	// Queries a list of ShowLottery items.
 	ShowLottery(ctx context.Context, in *QueryShowLotteryRequest, opts ...grpc.CallOption) (*QueryShowLotteryResponse, error)
+	// Queries a list of LotteryPots items.
+	LotteryPots(ctx context.Context, in *QueryGetLotteryPotsRequest, opts ...grpc.CallOption) (*QueryGetLotteryPotsResponse, error)
+	LotteryPotsAll(ctx context.Context, in *QueryAllLotteryPotsRequest, opts ...grpc.CallOption) (*QueryAllLotteryPotsResponse, error)
 }
 
 type queryClient struct {
@@ -397,6 +596,24 @@ func (c *queryClient) ShowLottery(ctx context.Context, in *QueryShowLotteryReque
 	return out, nil
 }
 
+func (c *queryClient) LotteryPots(ctx context.Context, in *QueryGetLotteryPotsRequest, opts ...grpc.CallOption) (*QueryGetLotteryPotsResponse, error) {
+	out := new(QueryGetLotteryPotsResponse)
+	err := c.cc.Invoke(ctx, "/lottery.lottery.Query/LotteryPots", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) LotteryPotsAll(ctx context.Context, in *QueryAllLotteryPotsRequest, opts ...grpc.CallOption) (*QueryAllLotteryPotsResponse, error) {
+	out := new(QueryAllLotteryPotsResponse)
+	err := c.cc.Invoke(ctx, "/lottery.lottery.Query/LotteryPotsAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -405,6 +622,9 @@ type QueryServer interface {
 	ListLottery(context.Context, *QueryListLotteryRequest) (*QueryListLotteryResponse, error)
 	// Queries a list of ShowLottery items.
 	ShowLottery(context.Context, *QueryShowLotteryRequest) (*QueryShowLotteryResponse, error)
+	// Queries a list of LotteryPots items.
+	LotteryPots(context.Context, *QueryGetLotteryPotsRequest) (*QueryGetLotteryPotsResponse, error)
+	LotteryPotsAll(context.Context, *QueryAllLotteryPotsRequest) (*QueryAllLotteryPotsResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -419,6 +639,12 @@ func (*UnimplementedQueryServer) ListLottery(ctx context.Context, req *QueryList
 }
 func (*UnimplementedQueryServer) ShowLottery(ctx context.Context, req *QueryShowLotteryRequest) (*QueryShowLotteryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowLottery not implemented")
+}
+func (*UnimplementedQueryServer) LotteryPots(ctx context.Context, req *QueryGetLotteryPotsRequest) (*QueryGetLotteryPotsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LotteryPots not implemented")
+}
+func (*UnimplementedQueryServer) LotteryPotsAll(ctx context.Context, req *QueryAllLotteryPotsRequest) (*QueryAllLotteryPotsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LotteryPotsAll not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -479,6 +705,42 @@ func _Query_ShowLottery_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_LotteryPots_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetLotteryPotsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LotteryPots(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lottery.lottery.Query/LotteryPots",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LotteryPots(ctx, req.(*QueryGetLotteryPotsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_LotteryPotsAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllLotteryPotsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LotteryPotsAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lottery.lottery.Query/LotteryPotsAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LotteryPotsAll(ctx, req.(*QueryAllLotteryPotsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "lottery.lottery.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -494,6 +756,14 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowLottery",
 			Handler:    _Query_ShowLottery_Handler,
+		},
+		{
+			MethodName: "LotteryPots",
+			Handler:    _Query_LotteryPots_Handler,
+		},
+		{
+			MethodName: "LotteryPotsAll",
+			Handler:    _Query_LotteryPotsAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -701,6 +971,151 @@ func (m *QueryShowLotteryResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetLotteryPotsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetLotteryPotsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetLotteryPotsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Id != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetLotteryPotsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetLotteryPotsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetLotteryPotsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.LotteryPots.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllLotteryPotsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllLotteryPotsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllLotteryPotsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllLotteryPotsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllLotteryPotsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllLotteryPotsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.LotteryPots) > 0 {
+		for iNdEx := len(m.LotteryPots) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.LotteryPots[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -784,6 +1199,61 @@ func (m *QueryShowLotteryResponse) Size() (n int) {
 	_ = l
 	l = m.Lottery.Size()
 	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryGetLotteryPotsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovQuery(uint64(m.Id))
+	}
+	return n
+}
+
+func (m *QueryGetLotteryPotsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.LotteryPots.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllLotteryPotsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllLotteryPotsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.LotteryPots) > 0 {
+		for _, e := range m.LotteryPots {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
 	return n
 }
 
@@ -1260,6 +1730,364 @@ func (m *QueryShowLotteryResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if err := m.Lottery.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetLotteryPotsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetLotteryPotsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetLotteryPotsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetLotteryPotsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetLotteryPotsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetLotteryPotsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LotteryPots", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.LotteryPots.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllLotteryPotsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllLotteryPotsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllLotteryPotsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllLotteryPotsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllLotteryPotsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllLotteryPotsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LotteryPots", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.LotteryPots = append(m.LotteryPots, LotteryPots{})
+			if err := m.LotteryPots[len(m.LotteryPots)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

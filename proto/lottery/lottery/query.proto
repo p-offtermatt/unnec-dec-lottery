@@ -7,6 +7,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "lottery/lottery/params.proto";
 import "lottery/lottery/lottery.proto";
+import "lottery/lottery/lottery_pots.proto";
 
 option go_package = "lottery/x/lottery/types";
 
@@ -28,6 +29,16 @@ service Query {
   // Queries a list of ShowLottery items.
   rpc ShowLottery (QueryShowLotteryRequest) returns (QueryShowLotteryResponse) {
     option (google.api.http).get = "/lottery/lottery/show_lottery/{id}";
+  
+  }
+  
+  // Queries a list of LotteryPots items.
+  rpc LotteryPots    (QueryGetLotteryPotsRequest) returns (QueryGetLotteryPotsResponse) {
+    option (google.api.http).get = "/lottery/lottery/lottery_pots/{id}";
+  
+  }
+  rpc LotteryPotsAll (QueryAllLotteryPotsRequest) returns (QueryAllLotteryPotsResponse) {
+    option (google.api.http).get = "/lottery/lottery/lottery_pots";
   
   }
 }
@@ -56,5 +67,22 @@ message QueryShowLotteryRequest {
 
 message QueryShowLotteryResponse {
   Lottery lottery = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetLotteryPotsRequest {
+  uint64 id = 1;
+}
+
+message QueryGetLotteryPotsResponse {
+  LotteryPots LotteryPots = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllLotteryPotsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllLotteryPotsResponse {
+  repeated LotteryPots                            LotteryPots = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
 }
 

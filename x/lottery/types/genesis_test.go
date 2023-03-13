@@ -22,9 +22,44 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				LotteryPotsList: []types.LotteryPots{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				LotteryPotsCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated lotteryPots",
+			genState: &types.GenesisState{
+				LotteryPotsList: []types.LotteryPots{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid lotteryPots count",
+			genState: &types.GenesisState{
+				LotteryPotsList: []types.LotteryPots{
+					{
+						Id: 1,
+					},
+				},
+				LotteryPotsCount: 0,
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
