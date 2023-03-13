@@ -14,7 +14,7 @@ func (k msgServer) CreateLottery(goCtx context.Context, msg *types.MsgCreateLott
 	// other fields will be initialized by keeper (id)
 	// or left empty (users)
 	lottery := types.Lottery{
-		Deadline: msg.Deadline,
+		Deadline: uint64(ctx.BlockHeight()) + msg.Deadline,
 		Creator:  msg.Creator,
 	}
 
