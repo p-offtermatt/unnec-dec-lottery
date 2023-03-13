@@ -46,8 +46,6 @@ func (k Keeper) OnRecvRefundLotteryPacket(ctx sdk.Context, packet channeltypes.P
 		return packetAck, err
 	}
 
-	// TODO: packet reception logic
-
 	return packetAck, nil
 }
 
@@ -70,7 +68,16 @@ func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet cha
 			return errors.New("cannot unmarshal acknowledgment")
 		}
 
-		// TODO: successful acknowledgement logic
+		lottery, found := k.GetLottery(ctx, data.Id)
+
+		if !found {
+			return sdkerrors.ErrNotFound.Wrapf("lottery with id %d not found", data.Id)
+		}
+
+		// lotteries are cancelled by setting their deadine to block 0, i.e. always expired
+		lottery.Deadline = 0
+
+		k.SetLottery(ctx, lottery)
 
 		return nil
 	default:
@@ -81,9 +88,5 @@ func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet cha
 
 // OnTimeoutRefundLotteryPacket responds to the case where a packet has not been transmitted because of a timeout
 func (k Keeper) OnTimeoutRefundLotteryPacket(ctx sdk.Context, packet channeltypes.Packet, data types.RefundLotteryPacketData) error {
-
-	// just resend it
-	k.TransmitRefundLotteryPacket(ctx, data, packet.DestinationPort, packet.DestinationChannel, clienttypes.ZeroHeight(), DefaultRelativePacketTimeoutTimestamp)
-
-	return nil
+	return sdkerrors.ErrTxTimeoutHeight.Wrapf("could not cancel lottery: packet timed out")
 }

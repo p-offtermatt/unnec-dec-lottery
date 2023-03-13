@@ -22,12 +22,6 @@ func (k msgServer) CancelLottery(goCtx context.Context, msg *types.MsgCancelLott
 		return nil, sdkerrors.ErrUnauthorized.Wrap("cannot cancel lottery: not creator")
 	}
 
-	// hack with surely no adverse consequences:
-	// lotteries are cancelled by setting their deadine to block 0, i.e. always expired
-	lottery.Deadline = 0
-
-	k.SetLottery(ctx, lottery)
-
 	k.TransmitRefundLotteryPacket(ctx,
 		types.RefundLotteryPacketData{Id: lottery.Id},
 		msg.SourcePort,
