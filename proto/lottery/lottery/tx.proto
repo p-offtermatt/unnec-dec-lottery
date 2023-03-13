@@ -1,7 +1,17 @@
 syntax = "proto3";
+
 package lottery.lottery;
 
 option go_package = "lottery/x/lottery/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc CreateLottery (MsgCreateLottery) returns (MsgCreateLotteryResponse);
+}
+message MsgCreateLottery {
+  string creator  = 1;
+  uint64 deadline = 2;
+}
+
+message MsgCreateLotteryResponse {}
+

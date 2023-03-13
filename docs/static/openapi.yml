@@ -43875,18 +43875,20 @@ paths:
             type: object
             properties:
               lottery:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uint64
-                  deadline:
-                    type: string
-                    format: uint64
-                  users:
-                    type: array
-                    items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
                       type: string
+                      format: uint64
+                    deadline:
+                      type: string
+                      format: uint64
+                    users:
+                      type: array
+                      items:
+                        type: string
               pagination:
                 type: object
                 properties:
@@ -71575,6 +71577,8 @@ definitions:
         type: array
         items:
           type: string
+  lottery.lottery.MsgCreateLotteryResponse:
+    type: object
   lottery.lottery.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -71582,18 +71586,20 @@ definitions:
     type: object
     properties:
       lottery:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uint64
-          deadline:
-            type: string
-            format: uint64
-          users:
-            type: array
-            items:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
               type: string
+              format: uint64
+            deadline:
+              type: string
+              format: uint64
+            users:
+              type: array
+              items:
+                type: string
       pagination:
         type: object
         properties:

@@ -7,4 +7,5 @@ message Lottery {
   uint64 id = 1;
   uint64 deadline = 2;
   repeated string users = 3;
+  string creator = 4;
 }
