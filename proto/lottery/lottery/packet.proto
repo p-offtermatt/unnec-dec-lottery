@@ -1,0 +1,13 @@
+syntax = "proto3";
+package lottery.lottery;
+
+option go_package = "lottery/x/lottery/types";
+
+message LotteryPacketData {
+    oneof packet {
+        NoData noData = 1;
+    }
+}
+
+message NoData {
+}

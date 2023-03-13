@@ -1,0 +1,7 @@
+syntax = "proto3";
+package lottery.lottery;
+
+option go_package = "lottery/x/lottery/types";
+
+// Msg defines the Msg service.
+service Msg {}
