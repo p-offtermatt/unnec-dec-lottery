@@ -86,6 +86,7 @@ func LotteryKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		lotteryChannelKeeper{},
 		lotteryPortKeeper{},
 		capabilityKeeper.ScopeToModule("LotteryScopedKeeper"),
+		nil,
 	)
 
 	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, logger)

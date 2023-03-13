@@ -106,6 +106,7 @@ import (
 	lotterymodule "lottery/x/lottery"
 	lotterymodulekeeper "lottery/x/lottery/keeper"
 	lotterymoduletypes "lottery/x/lottery/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "lottery/app/params"
@@ -506,6 +507,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		scopedLotteryKeeper,
+		app.BankKeeper,
 	)
 	lotteryModule := lotterymodule.NewAppModule(appCodec, app.LotteryKeeper, app.AccountKeeper, app.BankKeeper)
 

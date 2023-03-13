@@ -3,12 +3,13 @@ package keeper
 import (
 	"errors"
 
+	"lottery/x/lottery/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v6/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v6/modules/core/24-host"
-	"lottery/x/lottery/types"
 )
 
 // TransmitBuyTicketPacket transmits the packet over IBC with the specified source port and source channel
@@ -40,9 +41,32 @@ func (k Keeper) OnRecvBuyTicketPacket(ctx sdk.Context, packet channeltypes.Packe
 		return packetAck, err
 	}
 
-	// TODO: packet reception logic
+	lottery, found := k.GetLottery(ctx, data.LotteryId)
+	if !found {
+		return packetAck, sdkerrors.ErrNotFound.Wrapf("lottery with id %d not found", data.LotteryId)
+	}
+
+	if ctx.BlockHeight() > int64(lottery.Deadline) {
+		return packetAck, types.ErrLotteryDeadlinePassed.Wrap("deadline to enter lottery has passed")
+	}
+
+	lottery.Users = append(lottery.Users, data.Creator)
+	k.SetLottery(ctx, lottery)
 
 	return packetAck, nil
+}
+
+func (k Keeper) RefundUser(ctx sdk.Context, data types.BuyTicketPacketData) error {
+	// refund user
+	creatorAddr := sdk.MustAccAddressFromBech32(data.Creator)
+	coins := sdk.NewCoins(data.Price)
+
+	err := k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, creatorAddr, coins)
+	if err != nil {
+		panic(err)
+	}
+
+	return nil
 }
 
 // OnAcknowledgementBuyTicketPacket responds to the the success or failure of a packet
@@ -51,10 +75,10 @@ func (k Keeper) OnAcknowledgementBuyTicketPacket(ctx sdk.Context, packet channel
 	switch dispatchedAck := ack.Response.(type) {
 	case *channeltypes.Acknowledgement_Error:
 
-		// TODO: failed acknowledgement logic
-		_ = dispatchedAck.Error
+		// failed acknowledgement logic
 
-		return nil
+		// refund user
+		return k.RefundUser(ctx, data)
 	case *channeltypes.Acknowledgement_Result:
 		// Decode the packet acknowledgment
 		var packetAck types.BuyTicketPacketAck
@@ -76,7 +100,5 @@ func (k Keeper) OnAcknowledgementBuyTicketPacket(ctx sdk.Context, packet channel
 // OnTimeoutBuyTicketPacket responds to the case where a packet has not been transmitted because of a timeout
 func (k Keeper) OnTimeoutBuyTicketPacket(ctx sdk.Context, packet channeltypes.Packet, data types.BuyTicketPacketData) error {
 
-	// TODO: packet timeout logic
-
-	return nil
+	return k.RefundUser(ctx, data)
 }
