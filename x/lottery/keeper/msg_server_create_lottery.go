@@ -15,6 +15,7 @@ func (k msgServer) CreateLottery(goCtx context.Context, msg *types.MsgCreateLott
 	// or left empty (users)
 	lottery := types.Lottery{
 		Deadline: msg.Deadline,
+		Creator:  msg.Creator,
 	}
 
 	k.AppendLottery(ctx, lottery)
