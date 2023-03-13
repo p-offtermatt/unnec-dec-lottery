@@ -25,6 +25,8 @@ func (k msgServer) CancelLottery(goCtx context.Context, msg *types.MsgCancelLott
 	// lotteries are cancelled by setting their deadine to block 0, i.e. always expired
 	lottery.Deadline = 0
 
+	k.SetLottery(ctx, lottery)
+
 	// TODO: send ibc packet to refund users
 
 	return &types.MsgCancelLotteryResponse{}, nil
