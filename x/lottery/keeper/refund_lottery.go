@@ -55,10 +55,7 @@ func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet cha
 	switch dispatchedAck := ack.Response.(type) {
 	case *channeltypes.Acknowledgement_Error:
 
-		// resend the packet
-		k.TransmitRefundLotteryPacket(ctx, data, packet.DestinationPort, packet.DestinationChannel, clienttypes.ZeroHeight(), DefaultRelativePacketTimeoutTimestamp)
-
-		return nil
+		return sdkerrors.ErrLogic.Wrapf("could not cancel lottery: IBC packet was acknowledged with error %s", dispatchedAck.Error)
 	case *channeltypes.Acknowledgement_Result:
 		// Decode the packet acknowledgment
 		var packetAck types.RefundLotteryPacketAck
@@ -72,6 +69,10 @@ func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet cha
 
 		if !found {
 			return sdkerrors.ErrNotFound.Wrapf("lottery with id %d not found", data.Id)
+		}
+
+		if lottery.Deadline < uint64(ctx.BlockHeight()) {
+			return types.ErrLotteryDeadlinePassed.Wrap("deadline has passed")
 		}
 
 		// lotteries are cancelled by setting their deadine to block 0, i.e. always expired

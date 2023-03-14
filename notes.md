@@ -52,6 +52,7 @@ from t to l:
   * Acknowledged if lottery round is before its deadline, or error when the round has ended (user is refunded)
 l to t
 * WinnerPicked (sent when a lottery deadline passes)
+* CancelLottery (users are refunded)
 
 
 Possible problem scenarios:
@@ -67,3 +68,24 @@ Possible problem scenarios:
   * ignite scaffold chain ticket --no-module
   * cd lottery; ignite scaffold module lottery --ibc; cd ..
   * cd ticket; ignite scaffold module ticket --ibc; cd ..
+
+ignite chain serve -c ticket.yaml
+
+  ignite relayer configure -a \
+  --source-rpc "http://0.0.0.0:26657" \
+  --source-faucet "http://0.0.0.0:4500" \
+  --source-port "lottery" \
+  --source-version "lottery-1" \
+  --source-gasprice "0.0000025stake" \
+  --source-prefix "cosmos" \
+  --source-gaslimit 300000 \
+  --target-rpc "http://0.0.0.0:26659" \
+  --target-faucet "http://0.0.0.0:4501" \
+  --target-port "lottery" \
+  --target-version "lottery-1" \
+  --target-gasprice "0.0000025stake" \
+  --target-prefix "cosmos" \
+  --target-gaslimit 300000
+
+  export FROML="--chain-id lottery --home ~/.lottery"
+  export FROMT="--chain-id ticket --home ~/.ticket"
