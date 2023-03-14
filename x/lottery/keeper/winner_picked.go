@@ -3,19 +3,18 @@ package keeper
 import (
 	"errors"
 
-	"lottery/x/lottery/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v6/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v6/modules/core/24-host"
+	"lottery/x/lottery/types"
 )
 
-// TransmitRefundLotteryPacket transmits the packet over IBC with the specified source port and source channel
-func (k Keeper) TransmitRefundLotteryPacket(
+// TransmitWinnerPickedPacket transmits the packet over IBC with the specified source port and source channel
+func (k Keeper) TransmitWinnerPickedPacket(
 	ctx sdk.Context,
-	packetData types.RefundLotteryPacketData,
+	packetData types.WinnerPickedPacketData,
 	sourcePort,
 	sourceChannel string,
 	timeoutHeight clienttypes.Height,
@@ -34,46 +33,38 @@ func (k Keeper) TransmitRefundLotteryPacket(
 	return k.channelKeeper.SendPacket(ctx, channelCap, sourcePort, sourceChannel, timeoutHeight, timeoutTimestamp, packetBytes)
 }
 
-// OnRecvRefundLotteryPacket processes packet reception
-func (k Keeper) OnRecvRefundLotteryPacket(ctx sdk.Context, packet channeltypes.Packet, data types.RefundLotteryPacketData) (packetAck types.RefundLotteryPacketAck, err error) {
+// OnRecvWinnerPickedPacket processes packet reception
+func (k Keeper) OnRecvWinnerPickedPacket(ctx sdk.Context, packet channeltypes.Packet, data types.WinnerPickedPacketData) (packetAck types.WinnerPickedPacketAck, err error) {
 	// validate packet data upon receiving
 	if err := data.ValidateBasic(); err != nil {
 		return packetAck, err
 	}
 
+	// TODO: packet reception logic
+
 	return packetAck, nil
 }
 
-// OnAcknowledgementRefundLotteryPacket responds to the the success or failure of a packet
+// OnAcknowledgementWinnerPickedPacket responds to the the success or failure of a packet
 // acknowledgement written on the receiving chain.
-func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet channeltypes.Packet, data types.RefundLotteryPacketData, ack channeltypes.Acknowledgement) error {
+func (k Keeper) OnAcknowledgementWinnerPickedPacket(ctx sdk.Context, packet channeltypes.Packet, data types.WinnerPickedPacketData, ack channeltypes.Acknowledgement) error {
 	switch dispatchedAck := ack.Response.(type) {
 	case *channeltypes.Acknowledgement_Error:
 
-		return sdkerrors.ErrLogic.Wrapf("could not cancel lottery: IBC packet was acknowledged with error %s", dispatchedAck.Error)
+		// TODO: failed acknowledgement logic
+		_ = dispatchedAck.Error
+
+		return nil
 	case *channeltypes.Acknowledgement_Result:
 		// Decode the packet acknowledgment
-		var packetAck types.RefundLotteryPacketAck
+		var packetAck types.WinnerPickedPacketAck
 
 		if err := types.ModuleCdc.UnmarshalJSON(dispatchedAck.Result, &packetAck); err != nil {
 			// The counter-party module doesn't implement the correct acknowledgment format
 			return errors.New("cannot unmarshal acknowledgment")
 		}
 
-		lottery, found := k.GetLottery(ctx, data.Id)
-
-		if !found {
-			return sdkerrors.ErrNotFound.Wrapf("lottery with id %d not found", data.Id)
-		}
-
-		if lottery.Deadline < uint64(ctx.BlockHeight()) {
-			return types.ErrLotteryDeadlinePassed.Wrap("deadline has passed")
-		}
-
-		// lotteries are cancelled by setting their deadine to block 0, i.e. always expired
-		lottery.Deadline = 0
-
-		k.SetLottery(ctx, lottery)
+		// TODO: successful acknowledgement logic
 
 		return nil
 	default:
@@ -82,7 +73,10 @@ func (k Keeper) OnAcknowledgementRefundLotteryPacket(ctx sdk.Context, packet cha
 	}
 }
 
-// OnTimeoutRefundLotteryPacket responds to the case where a packet has not been transmitted because of a timeout
-func (k Keeper) OnTimeoutRefundLotteryPacket(ctx sdk.Context, packet channeltypes.Packet, data types.RefundLotteryPacketData) error {
-	return sdkerrors.ErrTxTimeoutHeight.Wrapf("could not cancel lottery: packet timed out")
+// OnTimeoutWinnerPickedPacket responds to the case where a packet has not been transmitted because of a timeout
+func (k Keeper) OnTimeoutWinnerPickedPacket(ctx sdk.Context, packet channeltypes.Packet, data types.WinnerPickedPacketData) error {
+
+	// TODO: packet timeout logic
+
+	return nil
 }

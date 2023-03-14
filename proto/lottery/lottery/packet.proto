@@ -13,6 +13,7 @@ message LotteryPacketData {
     RefundLotteryPacketData refundLotteryPacket = 2;
     SayhelloPacketData      sayhelloPacket      = 3;
     BuyTicketPacketData     buyTicketPacket     = 4;
+    WinnerPickedPacketData  winnerPickedPacket  = 5;
   }
 }
 
@@ -43,4 +44,13 @@ message BuyTicketPacketData {
 
 // BuyTicketPacketAck defines a struct for the packet acknowledgment
 message BuyTicketPacketAck {}
+
+// WinnerPickedPacketData defines a struct for the packet payload
+message WinnerPickedPacketData {
+  uint64 id   = 1;
+  string user = 2;
+}
+
+// WinnerPickedPacketAck defines a struct for the packet acknowledgment
+message WinnerPickedPacketAck {}
 

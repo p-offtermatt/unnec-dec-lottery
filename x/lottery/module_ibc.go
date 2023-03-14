@@ -206,6 +206,25 @@ func (im IBCModule) OnRecvPacket(
 				sdk.NewAttribute(types.AttributeKeyAckSuccess, fmt.Sprintf("%t", err != nil)),
 			),
 		)
+	case *types.LotteryPacketData_WinnerPickedPacket:
+		packetAck, err := im.keeper.OnRecvWinnerPickedPacket(ctx, modulePacket, *packet.WinnerPickedPacket)
+		if err != nil {
+			ack = channeltypes.NewErrorAcknowledgement(err)
+		} else {
+			// Encode packet acknowledgment
+			packetAckBytes, err := types.ModuleCdc.MarshalJSON(&packetAck)
+			if err != nil {
+				return channeltypes.NewErrorAcknowledgement(sdkerrors.Wrap(sdkerrors.ErrJSONMarshal, err.Error()))
+			}
+			ack = channeltypes.NewResultAcknowledgement(sdk.MustSortJSON(packetAckBytes))
+		}
+		ctx.EventManager().EmitEvent(
+			sdk.NewEvent(
+				types.EventTypeWinnerPickedPacket,
+				sdk.NewAttribute(sdk.AttributeKeyModule, types.ModuleName),
+				sdk.NewAttribute(types.AttributeKeyAckSuccess, fmt.Sprintf("%t", err != nil)),
+			),
+		)
 		// this line is used by starport scaffolding # ibc/packet/module/recv
 	default:
 		err := fmt.Errorf("unrecognized %s packet type: %T", types.ModuleName, packet)
@@ -257,6 +276,12 @@ func (im IBCModule) OnAcknowledgementPacket(
 			return err
 		}
 		eventType = types.EventTypeBuyTicketPacket
+	case *types.LotteryPacketData_WinnerPickedPacket:
+		err := im.keeper.OnAcknowledgementWinnerPickedPacket(ctx, modulePacket, *packet.WinnerPickedPacket, ack)
+		if err != nil {
+			return err
+		}
+		eventType = types.EventTypeWinnerPickedPacket
 		// this line is used by starport scaffolding # ibc/packet/module/ack
 	default:
 		errMsg := fmt.Sprintf("unrecognized %s packet type: %T", types.ModuleName, packet)
@@ -316,6 +341,11 @@ func (im IBCModule) OnTimeoutPacket(
 		}
 	case *types.LotteryPacketData_BuyTicketPacket:
 		err := im.keeper.OnTimeoutBuyTicketPacket(ctx, modulePacket, *packet.BuyTicketPacket)
+		if err != nil {
+			return err
+		}
+	case *types.LotteryPacketData_WinnerPickedPacket:
+		err := im.keeper.OnTimeoutWinnerPickedPacket(ctx, modulePacket, *packet.WinnerPickedPacket)
 		if err != nil {
 			return err
 		}

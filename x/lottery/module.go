@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	// this line is used by starport scaffolding # 1
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -11,15 +12,17 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
+	"lottery/x/lottery/client/cli"
+	"lottery/x/lottery/keeper"
+	"lottery/x/lottery/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
 	porttypes "github.com/cosmos/ibc-go/v6/modules/core/05-port/types"
-	"lottery/x/lottery/client/cli"
-	"lottery/x/lottery/keeper"
-	"lottery/x/lottery/types"
 )
 
 var (
@@ -152,8 +155,38 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 // ConsensusVersion is a sequence number for state-breaking change of the module. It should be incremented on each consensus-breaking change introduced by the module. To avoid wrong/empty versions, the initial version should be set to 1
 func (AppModule) ConsensusVersion() uint64 { return 1 }
 
+func (am AppModule) PickWinner(ctx sdk.Context, lottery types.Lottery) {
+
+	users := lottery.Users
+	winner := lottery.Users[ctx.BlockHeight()%int64(len(users))]
+
+	packet := types.WinnerPickedPacketData{
+		Id:   lottery.Id,
+		User: winner,
+	}
+	am.keeper.TransmitWinnerPickedPacket(ctx,
+		packet,
+		"lottery",
+		"channel-0",
+		clienttypes.ZeroHeight(),
+		types.DefaultRelativePacketTimeoutTimestamp)
+}
+
 // BeginBlock contains the logic that is automatically triggered at the beginning of each block
-func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {}
+func (am AppModule) BeginBlock(goCtx sdk.Context, _ abci.RequestBeginBlock) {
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	k := am.keeper
+
+	allLotteries := k.GetAllLottery(ctx)
+
+	for _, lottery := range allLotteries {
+		if lottery.Deadline == uint64(ctx.BlockHeight()) {
+			am.PickWinner(ctx, lottery)
+		}
+	}
+}
 
 // EndBlock contains the logic that is automatically triggered at the end of each block
 func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
