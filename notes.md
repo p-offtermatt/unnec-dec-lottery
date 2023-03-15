@@ -7,8 +7,8 @@ The lifecycle of a round of lottery is:
 * Users can enter the lottery by sending a tx on chain t and buying a ticket
 * t sends ibc packets to tell l when a new user enters the lottery
 * once the deadline height has passed, l will pick a winner (by a deterministic process)
-and send an ibc packet with the winner to l
-* l will distribute the funds to the winner, and everyone else goes empty
+and send an ibc packet with the winner to t
+* t will distribute the funds to the winner, and everyone else goes empty
 
 What do we need to store?
 * on l:
@@ -71,6 +71,8 @@ Possible problem scenarios:
 
 ignite chain serve -c ticket.yaml
 
+rm -rf ~/.ignite/relayer
+
   ignite relayer configure -a \
   --source-rpc "http://0.0.0.0:26657" \
   --source-faucet "http://0.0.0.0:4500" \
@@ -87,5 +89,9 @@ ignite chain serve -c ticket.yaml
   --target-prefix "cosmos" \
   --target-gaslimit 300000
 
-  export FROML="--chain-id lottery --home ~/.lottery"
-  export FROMT="--chain-id ticket --home ~/.ticket"
+lotteryd tx lottery create-lottery 150 --from alice --chain-id lottery --home ~/.lottery
+
+lotteryd tx lottery send-buy-ticket lottery channel-0 0 10stake --from bob --chain-id ticket --home ~/.ticket --node tcp://0.0.0.0:26659
+
+lotteryd q lottery list-lottery  --chain-id lottery --home ~/.lottery
+

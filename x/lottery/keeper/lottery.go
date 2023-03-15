@@ -75,7 +75,7 @@ func (k Keeper) GetLottery(ctx sdk.Context, id uint64) (val types.Lottery, found
 // GetAllLottery returns all lotteries
 func (k Keeper) GetAllLottery(ctx sdk.Context) (list []types.Lottery) {
 	store := prefix.NewStore(
-		ctx.KVStore(sdk.NewKVStoreKey("bank")),
+		ctx.KVStore((k.storeKey)),
 		types.KeyPrefix(types.LotteryKey),
 	)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})

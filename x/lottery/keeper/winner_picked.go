@@ -3,12 +3,13 @@ package keeper
 import (
 	"errors"
 
+	"lottery/x/lottery/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v6/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v6/modules/core/24-host"
-	"lottery/x/lottery/types"
 )
 
 // TransmitWinnerPickedPacket transmits the packet over IBC with the specified source port and source channel
@@ -40,7 +41,17 @@ func (k Keeper) OnRecvWinnerPickedPacket(ctx sdk.Context, packet channeltypes.Pa
 		return packetAck, err
 	}
 
-	// TODO: packet reception logic
+	pot, found := k.GetPotForLottery(ctx, data.Id)
+	if !found {
+		return packetAck, sdkerrors.ErrNotFound.Wrapf("lottery with id %f has no winnings pot", data.Id)
+	}
+
+	winnerAddr := sdk.MustAccAddressFromBech32(data.User)
+
+	winnings := sdk.NewCoins(sdk.NewCoin("stake", sdk.NewIntFromUint64(pot.Amount)))
+	k.bankKeeper.MintCoins(ctx, types.ModuleName, winnings)
+
+	k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, winnerAddr, winnings)
 
 	return packetAck, nil
 }

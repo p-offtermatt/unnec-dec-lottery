@@ -158,26 +158,45 @@ func (AppModule) ConsensusVersion() uint64 { return 1 }
 func (am AppModule) PickWinner(ctx sdk.Context, lottery types.Lottery) {
 
 	users := lottery.Users
-	winner := lottery.Users[ctx.BlockHeight()%int64(len(users))]
+
+	var winner string
+
+	if len(users) == 0 {
+		winner = lottery.Users[ctx.BlockHeight()%int64(len(users))]
+	} else {
+		winner = lottery.Creator
+	}
+
+	lottery.Users = append(lottery.Users, "deadline has passed")
+	am.keeper.SetLottery(ctx, lottery)
 
 	packet := types.WinnerPickedPacketData{
 		Id:   lottery.Id,
 		User: winner,
 	}
-	am.keeper.TransmitWinnerPickedPacket(ctx,
+	_, err := am.keeper.TransmitWinnerPickedPacket(ctx,
 		packet,
 		"lottery",
 		"channel-0",
 		clienttypes.ZeroHeight(),
 		types.DefaultRelativePacketTimeoutTimestamp)
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 // BeginBlock contains the logic that is automatically triggered at the beginning of each block
-func (am AppModule) BeginBlock(goCtx sdk.Context, _ abci.RequestBeginBlock) {
-
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
+func (am AppModule) BeginBlock(ctx sdk.Context, _ abci.RequestBeginBlock) { // TODO: best practice is most logic in EndBlock
 	k := am.keeper
+
+	// if ctx.BlockHeight() == 50 {
+	// 	dummyLottery := types.Lottery{
+	// 		Deadline: 100,
+	// 		Creator:  "me",
+	// 	}
+	// 	k.AppendLottery(ctx, dummyLottery)
+	// }
 
 	allLotteries := k.GetAllLottery(ctx)
 
