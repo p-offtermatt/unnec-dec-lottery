@@ -179,7 +179,8 @@ func (am AppModule) PickWinner(ctx sdk.Context, lottery types.Lottery) {
 		"lottery",
 		"channel-0",
 		clienttypes.ZeroHeight(),
-		types.DefaultRelativePacketTimeoutTimestamp)
+		0,
+	)
 
 	if err != nil {
 		panic(err)

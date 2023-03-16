@@ -934,6 +934,10 @@ func (app *App) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
 	return app.ScopedIBCKeeper
 }
 
+func (app *App) GetLotteryKeeper() lotterymodulekeeper.Keeper {
+	return app.LotteryKeeper
+}
+
 // GetTxConfig implements the TestingApp interface.
 func (app *App) GetTxConfig() client.TxConfig {
 	return simapp.MakeTestEncodingConfig().TxConfig

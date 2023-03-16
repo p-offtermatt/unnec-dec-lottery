@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	"lottery/x/lottery/types"
 
@@ -10,6 +11,8 @@ import (
 
 func (k msgServer) CreateLottery(goCtx context.Context, msg *types.MsgCreateLottery) (*types.MsgCreateLotteryResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	fmt.Printf("lottery creation received %v", msg)
 
 	// other fields will be initialized by keeper (id)
 	// or left empty (users)

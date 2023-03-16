@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"errors"
+	"fmt"
 
 	"lottery/x/lottery/types"
 
@@ -31,11 +32,12 @@ func (k Keeper) TransmitBuyTicketPacket(
 		return 0, sdkerrors.Wrapf(sdkerrors.ErrJSONMarshal, "cannot marshal the packet: %w", err)
 	}
 
-	return k.channelKeeper.SendPacket(ctx, channelCap, sourcePort, sourceChannel, timeoutHeight, timeoutTimestamp, packetBytes)
+	return k.channelKeeper.SendPacket(ctx, channelCap, sourcePort, sourceChannel, clienttypes.NewHeight(1, 110), 0, packetBytes)
 }
 
 // OnRecvBuyTicketPacket processes packet reception
 func (k Keeper) OnRecvBuyTicketPacket(ctx sdk.Context, packet channeltypes.Packet, data types.BuyTicketPacketData) (packetAck types.BuyTicketPacketAck, err error) {
+	fmt.Println("Hey, I just received a buy ticket packet!")
 	// validate packet data upon receiving
 	if err := data.ValidateBasic(); err != nil {
 		return packetAck, err
@@ -72,6 +74,7 @@ func (k Keeper) RefundUser(ctx sdk.Context, data types.BuyTicketPacketData) erro
 // OnAcknowledgementBuyTicketPacket responds to the the success or failure of a packet
 // acknowledgement written on the receiving chain.
 func (k Keeper) OnAcknowledgementBuyTicketPacket(ctx sdk.Context, packet channeltypes.Packet, data types.BuyTicketPacketData, ack channeltypes.Acknowledgement) error {
+	fmt.Println("Hey, I just received an Acknowledgement!")
 	switch dispatchedAck := ack.Response.(type) {
 	case *channeltypes.Acknowledgement_Error:
 
